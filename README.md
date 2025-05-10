@@ -3,6 +3,6 @@ Dental Clinic Mnagament System
 
 A JAVA Desktop Application developed through:
 
-JDK 1.8
-Netbeans IDE
+JDK 1.8,
+Netbeans IDE and
 MYSQL 
