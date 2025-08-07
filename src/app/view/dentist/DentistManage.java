@@ -7,7 +7,7 @@ package app.view.dentist;
 
 import static app.global.FunctionFactory.msgboxYesNo;
 import app.model.controller.DentistController;
-import app.view.signature.CurrentSignatureDoctor;
+import app.view.signature.doctor.CurrentSignatureDoctor;
 import javax.swing.JOptionPane;
 
 /**
@@ -262,7 +262,7 @@ public class DentistManage extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "No record selected! Please select a record from the list!");
         } else {
             String Id = tbl.getValueAt(row, col).toString();
-            CurrentSignatureDoctor.Id = Integer.parseInt(Id);
+            CurrentSignatureDoctor.DentistId = Integer.parseInt(Id);
             ShowFrmCurrentSignatureDoctor();
         }
     }//GEN-LAST:event_AddButton3ActionPerformed

@@ -35,27 +35,27 @@ public class ReportFactory {
         }
     }
 
-    public void LoadReportInformedConsent(String nym, JPanel y) {
+    public void LoadReportInformedConsent(int id, JPanel y) {
         try {
             JasperReport jasperReport;
             JasperPrint jPrint;
 
             //parameters
             HashMap parameters = new HashMap();
-            parameters.put("ppg", nym);
+            parameters.put("id", id);
 
             jasperReport = compileReport("rpt/ReportInformedConsent.jrxml");
 
             jPrint = fillReport(jasperReport, parameters, getConnection());
 
-        //    JasperViewer Viewer = new JasperViewer(jPrint, false);
+           // JasperViewer Viewer = new JasperViewer(jPrint, false);
             
             JRViewer x = new JRViewer(jPrint);
             y.setLayout(new BorderLayout());
             y.add(x);
 
             //   JasperExportManager.exportReportToPdfFile(jPrint, "./salesupdate.pdf");
-            //  JasperExportManager.exportReportToPdf(jPrint, "C:\\report.pdf");
+//            //  JasperExportManager.exportReportToPdf(jPrint, "C:\\report.pdf");
 //            Viewer.setTitle("Informed Consent");
 //            Viewer.setExtendedState(Viewer.getExtendedState() | MAXIMIZED_BOTH);
 //            Viewer.setVisible(true);

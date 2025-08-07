@@ -16,7 +16,7 @@ import app.model.controller.PatientToothStatusController;
 import app.model.controller.ToothStatusController;
 import app.view.informedConsent.InformedConcent;
 import app.view.patient.PatientMDH;
-import app.view.signature.SignatureClient;
+import app.view.signature.patient.PatientSignInformedConsent;
 import static app.view.toothchart.PatientToothStatusSetter.Stmt;
 import app.view.treatmentrecord.TreatmentRecord;
 import java.sql.Connection;
@@ -51,7 +51,7 @@ public final class ToothChart extends javax.swing.JInternalFrame {
     PatientController PatientController = new PatientController();
     public static PatientMDH frmPatientMDH;
     public static TreatmentRecord frmTR;
-    public static SignatureClient frmSigCli;
+    public static PatientSignInformedConsent frmSigCli;
 
     public static int ToothStatusId;
 
@@ -90,7 +90,7 @@ public final class ToothChart extends javax.swing.JInternalFrame {
     }
 
     public void ShowFrmSigCli() {
-        frmSigCli = new SignatureClient(this, true);
+        frmSigCli = new PatientSignInformedConsent(this, true);
         frmSigCli.setVisible(true);
     }
 

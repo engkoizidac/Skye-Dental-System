@@ -1,5 +1,5 @@
 
-package app.view.signature;
+package app.global;
 
 import java.awt.Color;
 import java.awt.Graphics2D;

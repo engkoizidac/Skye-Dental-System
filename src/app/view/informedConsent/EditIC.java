@@ -27,13 +27,12 @@ public class EditIC extends javax.swing.JDialog {
         initComponents();
         setLocationRelativeTo(this);
         getRootPane().setDefaultButton(cmdsave);
-                Controller.setISId(Id);
+        Controller.setISId(Id);
         PopulateData();
 
     }
 
     private void PopulateData() {
-
         Controller.PopulateDataOnEdit();
         c1.setSelected(Controller.getC1() == 1);
         c2.setSelected(Controller.getC2() == 1);
@@ -45,6 +44,12 @@ public class EditIC extends javax.swing.JDialog {
         c8.setSelected(Controller.getC8() == 1);
         c9.setSelected(Controller.getC9() == 1);
         c10.setSelected(Controller.getC10() == 1);
+
+        DentistId=Controller.getDentistId();
+        
+        DentistController.setDentistId(DentistId);
+        DentistController.PopulateDataOnEdit();
+        DentistController.PopulateComboBoxDataOnEdit(cmbdentist, DentistId, DentistController.getName());
     }
 
     @SuppressWarnings("unchecked")
@@ -225,7 +230,7 @@ public class EditIC extends javax.swing.JDialog {
             Controller.setC8((c8.isSelected() == true) ? 1 : 0);
             Controller.setC9((c9.isSelected() == true) ? 1 : 0);
             Controller.setC10((c10.isSelected() == true) ? 1 : 0);
-Controller.setDentistId(1);
+            Controller.setDentistId(DentistId);
             Controller.Update();
             this.dispose();
             JOptionPane.showMessageDialog(null, "Updated Successfully!");

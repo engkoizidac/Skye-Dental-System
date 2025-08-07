@@ -84,6 +84,22 @@ public class InformedConsentController extends InformedConsent {
 
     }
 
+    public void Remove() {
+        Connection Conn = getConnection();
+        String createString;
+        createString = "DELETE FROM informed_consent WHERE ISId=" + this.getISId();
+
+        try {
+            Stmt = Conn.createStatement();
+            Stmt.executeUpdate(createString);
+            Stmt.close();
+            Conn.close();
+
+        } catch (SQLException e) {
+            showMessageDialog(null, e.getMessage());
+        }
+    }
+
     public void PopulateDataOnEdit() {
         Connection Conn = getConnection();
         String createString = "SELECT * FROM informed_consent WHERE ISId=" + this.getISId();
@@ -120,7 +136,7 @@ public class InformedConsentController extends InformedConsent {
         dtv.InitializeTableLarge();
         dtv.RenderTable();
 
-        String createString = "SELECT * FROM informed_consent WHERE SignedFlag=" + Stat + " AND  ORDER BY TransDate";
+        String createString = "SELECT * FROM informed_consent WHERE SignedFlag=" + Stat + "  ORDER BY TransDate";
 
         try {
 

@@ -1,4 +1,4 @@
-package app.view.signature;
+package app.view.signature.patient;
 
 //import Module.Main.Transparent;
 //import static memsys.ui.devices.CapturerMain.clip;
@@ -9,6 +9,7 @@ package app.view.signature;
 //import com.sun.image.codec.jpeg.JPEGCodec;
 //import com.sun.image.codec.jpeg.JPEGImageEncoder;
 import app.global.FTPFactory;
+import app.view.toothchart.ToothChart;
 //import com.sun.image.codec.jpeg.JPEGCodec;
 //import com.sun.image.codec.jpeg.JPEGImageEncoder;
 import java.awt.BorderLayout;
@@ -35,18 +36,20 @@ import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 //import memsys.global.FTPFactory;
 
-public class SignatureDoctor extends javax.swing.JDialog {
+public class PatientSignInformedConsent extends javax.swing.JDialog {
 
-    public static CurrentSignatureDoctor frmParent;
+    public static ToothChart frmParent;
     public static String memID;
     static Rectangle clip;
 
-    public SignatureDoctor(CurrentSignatureDoctor parent, boolean modal) {
+    public PatientSignInformedConsent(ToothChart parent, boolean modal) {
         this.frmParent = parent;
         this.setModal(modal);
         initComponents();
         paint();
         setLocationRelativeTo(this);
+//        capturer.setVisible(false);
+        //System.out.println(memID);
     }
 
     void paint() {
@@ -380,7 +383,7 @@ public class SignatureDoctor extends javax.swing.JDialog {
         jToolBar1.setRollover(true);
         jToolBar1.add(jSeparator1);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/save.png"))); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/edit.png"))); // NOI18N
         jButton1.setText("      Save       ");
         jButton1.setFocusable(false);
         jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -479,7 +482,7 @@ public class SignatureDoctor extends javax.swing.JDialog {
             BufferedImage processedImage = cropMyImage(originalImage, 395, 110, 5, 5);
             writeImage(processedImage, "etc/temp/imgcrop.png", "PNG");
         } catch (Exception ex) {
-            Logger.getLogger(SignatureDoctor.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PatientSignInformedConsent.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -492,7 +495,7 @@ public class SignatureDoctor extends javax.swing.JDialog {
             BufferedImage processedImage = resizeImage(originalImage, 300, 80);
             writeImage(processedImage, "etc/temp/imgresize.png", "PNG");
         } catch (IOException ex) {
-            Logger.getLogger(SignatureDoctor.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PatientSignInformedConsent.class.getName()).log(Level.SEVERE, null, ex);
         }
 
 
@@ -535,14 +538,22 @@ public class SignatureDoctor extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SignatureDoctor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PatientSignInformedConsent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SignatureDoctor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PatientSignInformedConsent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SignatureDoctor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PatientSignInformedConsent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(SignatureDoctor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PatientSignInformedConsent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -555,7 +566,7 @@ public class SignatureDoctor extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                SignatureDoctor dialog = new SignatureDoctor(frmParent, true);
+                PatientSignInformedConsent dialog = new PatientSignInformedConsent(frmParent, true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

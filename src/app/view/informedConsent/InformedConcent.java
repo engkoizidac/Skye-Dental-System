@@ -5,10 +5,9 @@
  */
 package app.view.informedConsent;
 
+import static app.global.FunctionFactory.msgboxYesNo;
 import app.global.ReportFactory;
 import app.model.controller.InformedConsentController;
-import app.view.dentist.DentistManage;
-import app.view.signature.SignatureDoctor;
 import app.view.toothchart.ToothChart;
 import java.awt.Component;
 import java.awt.GraphicsEnvironment;
@@ -107,7 +106,7 @@ public class InformedConcent extends javax.swing.JDialog {
                 String id = tbl.getValueAt(row, col).toString();
 
                 ReportFactory Factory = new ReportFactory();
-                Factory.LoadReportInformedConsent("Yes", PanelView);
+                Factory.LoadReportInformedConsent(Integer.parseInt(id), PanelView);
             }
             isPushed = false;
             return new String(label);
@@ -314,6 +313,11 @@ public class InformedConcent extends javax.swing.JDialog {
         jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/trash.png"))); // NOI18N
         jMenuItem5.setMnemonic('D');
         jMenuItem5.setText("Delete");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem5);
 
         jMenuBar1.add(jMenu1);
@@ -392,6 +396,34 @@ public class InformedConcent extends javax.swing.JDialog {
             ShowFrmEditIC();
         }
     }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        int col = 0; //set column value to 0
+        int row = tbl.getSelectedRow(); //get value of selected value
+
+        //trap user incase if no row selected
+        if (tbl.isRowSelected(row) != true) {
+            JOptionPane.showMessageDialog(this, "No record selected! Please select a record from the list!");
+        } else {
+            String Id = tbl.getValueAt(row, col).toString();
+            int i = msgboxYesNo("Are you sure you want to delete this record");
+            switch (i) {
+                case 0:
+                    Controller.setISId(Integer.valueOf(Id));
+                    Controller.Remove();
+                    PopulateData();
+                    JOptionPane.showMessageDialog(null, "Successfully Removed!");
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    this.dispose(); //exit window
+                    break;
+                default:
+                    break;
+            }
+        }
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     /**
      * @param args the command line arguments
