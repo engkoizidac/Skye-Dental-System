@@ -20,8 +20,8 @@ import net.sf.jasperreports.view.JasperViewer;
 public class ReportFactory {
 
     public void LoadReportBoot() {
-         try {
-        JasperReport jasperReport;
+        try {
+            JasperReport jasperReport;
             JasperPrint jPrint;
 
             //parameters
@@ -35,7 +35,7 @@ public class ReportFactory {
         }
     }
 
-    public void LoadReportInformedConsent(int id, JPanel y) {
+    public void LoadReportInformedConsent(int id, String docSigPath, String patientSigPath, JPanel y) {
         try {
             JasperReport jasperReport;
             JasperPrint jPrint;
@@ -43,13 +43,14 @@ public class ReportFactory {
             //parameters
             HashMap parameters = new HashMap();
             parameters.put("id", id);
-
+            parameters.put("docsigpath", docSigPath);
+            parameters.put("patientsigpath", patientSigPath);
+            
             jasperReport = compileReport("rpt/ReportInformedConsent.jrxml");
 
             jPrint = fillReport(jasperReport, parameters, getConnection());
 
-           // JasperViewer Viewer = new JasperViewer(jPrint, false);
-            
+            // JasperViewer Viewer = new JasperViewer(jPrint, false);
             JRViewer x = new JRViewer(jPrint);
             y.setLayout(new BorderLayout());
             y.add(x);
@@ -63,7 +64,6 @@ public class ReportFactory {
             showMessageDialog(null, e.getMessage());
         }
     }
-
 
     public static void rptBoot() throws FileNotFoundException, IOException {
         try {

@@ -16,12 +16,12 @@ import javax.swing.JOptionPane;
  */
 public class EditIC extends javax.swing.JDialog {
 
-    public static InformedConcent frmParent;
+    public static InformedConcentManage frmParent;
     public static int Id, DentistId;
     InformedConsentController Controller = new InformedConsentController();
     DentistController DentistController = new DentistController();
 
-    public EditIC(InformedConcent parent, boolean modal) {
+    public EditIC(InformedConcentManage parent, boolean modal) {
         this.frmParent = parent;
         this.setModal(modal);
         initComponents();
@@ -232,6 +232,7 @@ public class EditIC extends javax.swing.JDialog {
             Controller.setC10((c10.isSelected() == true) ? 1 : 0);
             Controller.setDentistId(DentistId);
             Controller.Update();
+                       
             this.dispose();
             JOptionPane.showMessageDialog(null, "Updated Successfully!");
         }

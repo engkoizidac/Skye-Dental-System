@@ -5,9 +5,12 @@
  */
 package app.view.informedConsent;
 
+import app.global.FileFactory;
 import static app.global.FunctionFactory.msgboxYesNo;
 import app.global.ReportFactory;
 import app.model.controller.InformedConsentController;
+import app.view.signature.patient.PatientSignInformedConsent;
+
 import app.view.toothchart.ToothChart;
 import java.awt.Component;
 import java.awt.GraphicsEnvironment;
@@ -26,15 +29,18 @@ import javax.swing.table.TableCellRenderer;
  *
  * @author EngkoiZidac
  */
-public class InformedConcent extends javax.swing.JDialog {
+public class InformedConcentManage extends javax.swing.JDialog {
 
     public static ToothChart frmParent;
     public static NewIC frmNewIC;
     public static EditIC frmEditIC;
+    public static PatientSignInformedConsent frmPatientSignInformedConsent;
     InformedConsentController Controller = new InformedConsentController();
     static int stat;
+    public static int Id;
+    public static String PatientName;
 
-    public InformedConcent(ToothChart parent, boolean modal) {
+    public InformedConcentManage(ToothChart parent, boolean modal) {
         this.frmParent = parent;
         this.setModal(modal);
         initComponents();
@@ -42,6 +48,37 @@ public class InformedConcent extends javax.swing.JDialog {
         this.setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds());
         stat = 0;
         PopulateData();
+        lblp.setText(PatientName);
+    }
+
+    public void ClearDisplay() {
+        PanelView.removeAll();
+        PanelView.repaint();
+    }
+
+    public void ShowReport() {
+        int col = 0; //set column value to 0
+        int row = tbl.getSelectedRow(); //get value of selected value
+        String id = tbl.getValueAt(row, col).toString();
+
+        Controller.setISId(Integer.parseInt(id));
+        Controller.PopulateDataOnEdit();
+
+        FileFactory SigFile = new FileFactory();
+
+        String docsigpath = SigFile.getSigPathDoc() + Controller.getDentistId() + ".png";
+        String patientsigpath = SigFile.getSigPathPatient() + Controller.getISId() + ".png";
+
+        PanelView.removeAll();
+        PanelView.repaint();
+
+        ReportFactory Factory = new ReportFactory();
+        Factory.LoadReportInformedConsent(Integer.parseInt(id), docsigpath, patientsigpath, PanelView);
+    }
+
+    public void ShowFrmPatientSignInformedConsent() {
+        frmPatientSignInformedConsent = new PatientSignInformedConsent(this, true);
+        frmPatientSignInformedConsent.setVisible(true);
     }
 
     public void ShowFrmNewIC() {
@@ -55,7 +92,8 @@ public class InformedConcent extends javax.swing.JDialog {
     }
 
     public void PopulateData() {
-        Controller.PopulateTableData(tbl, stat);
+        ClearDisplay();
+        Controller.PopulateTableData(tbl, stat, Id);
 
         tbl.getColumn("Open").setCellRenderer(new ButtonRenderer(1));
         tbl.getColumn("Open").setCellEditor(new ButtonEditor(new JCheckBox(), 1));
@@ -105,8 +143,7 @@ public class InformedConcent extends javax.swing.JDialog {
                 int row = tbl.getSelectedRow(); //get value of selected value
                 String id = tbl.getValueAt(row, col).toString();
 
-                ReportFactory Factory = new ReportFactory();
-                Factory.LoadReportInformedConsent(Integer.parseInt(id), PanelView);
+                ShowReport();
             }
             isPushed = false;
             return new String(label);
@@ -167,6 +204,7 @@ public class InformedConcent extends javax.swing.JDialog {
         jSeparator3 = new javax.swing.JToolBar.Separator();
         AddButton1 = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JToolBar.Separator();
+        lblp = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -265,6 +303,9 @@ public class InformedConcent extends javax.swing.JDialog {
         jToolBar2.add(AddButton1);
         jToolBar2.add(jSeparator2);
 
+        lblp.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblp.setText("jLabel1");
+
         jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logo5.png"))); // NOI18N
 
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
@@ -335,8 +376,10 @@ public class InformedConcent extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(PanelView, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 423, Short.MAX_VALUE)
-                        .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 386, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jToolBar2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblp, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -345,6 +388,8 @@ public class InformedConcent extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblp, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(PanelView, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -360,7 +405,17 @@ public class InformedConcent extends javax.swing.JDialog {
     }//GEN-LAST:event_AddButton1ActionPerformed
 
     private void AddButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddButton3ActionPerformed
+        int col = 0; //set column value to 0
+        int row = tbl.getSelectedRow(); //get value of selected value
 
+        //trap user incase if no row selected
+        if (tbl.isRowSelected(row) != true) {
+            JOptionPane.showMessageDialog(this, "No record selected! Please select a record from the list!");
+        } else {
+            String id = tbl.getValueAt(row, col).toString();
+            PatientSignInformedConsent.Id = Integer.parseInt(id);
+            ShowFrmPatientSignInformedConsent();
+        }
     }//GEN-LAST:event_AddButton3ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
@@ -372,6 +427,7 @@ public class InformedConcent extends javax.swing.JDialog {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        NewIC.Id = Id;
         ShowFrmNewIC();
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
@@ -442,20 +498,21 @@ public class InformedConcent extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(InformedConcent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InformedConcentManage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(InformedConcent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InformedConcentManage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(InformedConcent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InformedConcentManage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(InformedConcent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InformedConcentManage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                InformedConcent dialog = new InformedConcent(frmParent, true);
+                InformedConcentManage dialog = new InformedConcentManage(frmParent, true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -484,6 +541,7 @@ public class InformedConcent extends javax.swing.JDialog {
     private javax.swing.JToolBar.Separator jSeparator3;
     private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JToolBar jToolBar2;
+    private javax.swing.JLabel lblp;
     private javax.swing.JTable tbl;
     // End of variables declaration//GEN-END:variables
 }

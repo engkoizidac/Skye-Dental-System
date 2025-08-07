@@ -6,6 +6,7 @@
 package app.model.controller;
 
 import static app.config.DBConn.getConnection;
+import static app.global.FunctionFactory.getSystemNowDateTimeString;
 import app.global.helper.DefaultComboBoxView;
 import app.global.helper.DefaultTableView;
 import app.model.InformedConsent;
@@ -25,6 +26,8 @@ public class InformedConsentController extends InformedConsent {
     static Statement Stmt;
     DefaultTableView dtv = new DefaultTableView();
     DefaultComboBoxView dcv = new DefaultComboBoxView();
+    static String nowDate = getSystemNowDateTimeString();
+    
 
     public void Add(String nowdate) {
         Connection conn = getConnection();
@@ -69,6 +72,27 @@ public class InformedConsentController extends InformedConsent {
                 + "C8=" + this.getC8() + ", "
                 + "C9=" + this.getC9() + ", "
                 + "C10=" + this.getC10() + " "
+                + "WHERE ISId=" + this.getISId();
+
+        try {
+            Connection Conn = getConnection();
+            Stmt = Conn.createStatement();
+            Stmt.executeUpdate(createString);
+            Stmt.close();
+            conn.close();
+
+        } catch (SQLException e) {
+            showMessageDialog(null, e.getMessage());
+        }
+
+    }
+
+    public void UpdateToSigned() {
+        Connection conn = getConnection();
+        String createString;
+        createString = "UPDATE informed_consent SET "
+                + "SignedFlag=1, "
+                + "DateSigned='" + nowDate + "' "
                 + "WHERE ISId=" + this.getISId();
 
         try {
@@ -130,13 +154,13 @@ public class InformedConsentController extends InformedConsent {
         }
     }
 
-    public void PopulateTableData(JTable TableObject, int Stat) {
+    public void PopulateTableData(JTable TableObject, int Stat, int PatientId) {
         Connection Conn = getConnection();
         dtv.setTableObject(TableObject);
         dtv.InitializeTableLarge();
         dtv.RenderTable();
 
-        String createString = "SELECT * FROM informed_consent WHERE SignedFlag=" + Stat + "  ORDER BY TransDate";
+        String createString = "SELECT * FROM informed_consent WHERE SignedFlag=" + Stat + " AND PatientId="+PatientId+" ORDER BY TransDate";
 
         try {
 

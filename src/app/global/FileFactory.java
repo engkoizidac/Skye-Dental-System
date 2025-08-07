@@ -6,14 +6,9 @@
 package app.global;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Properties;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.*;
 import java.awt.*;
 import java.nio.file.Files;
@@ -28,8 +23,8 @@ import java.util.logging.Logger;
  */
 public class FileFactory {
 
-    private static String SigPathDoc;
-    private static String SigPathInformedConsent;
+    private String SigPathDoc;
+    private String SigPathPatient;
     private static String SigSource;
     private String FileName;
 
@@ -41,7 +36,24 @@ public class FileFactory {
         this.FileName = FileName;
     }
 
-    private void GetPathConfig() {
+    public String getSigPathDoc() {
+        GetPathConfig();
+        return SigPathDoc;
+    }
+
+    public void setSigPathDoc(String SigPathDoc) {
+        this.SigPathDoc = SigPathDoc;
+    }
+
+    public String getSigPathPatient() {
+        return SigPathPatient;
+    }
+
+    public void setSigPathPatient(String SigPathPatient) {
+        this.SigPathPatient = SigPathPatient;
+    }
+    
+    void GetPathConfig() {
         String filePath = System.getProperty("user.dir") + "\\config.properties";
         Properties properties = new Properties();
 
@@ -52,7 +64,7 @@ public class FileFactory {
         }
 
         SigPathDoc = properties.getProperty("sig.path.doc");
-        SigPathInformedConsent = properties.getProperty("sig.path.doc");
+        SigPathPatient = properties.getProperty("sig.path.patient");
         SigSource = properties.getProperty("sig.source.file");
 
 //        ftphost = properties.getProperty("ftphosts");
@@ -66,6 +78,20 @@ public class FileFactory {
         GetPathConfig();
         Path source = Paths.get(SigSource);
         Path target = Paths.get(SigPathDoc + FileName);
+
+        try {
+            Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException ex) {
+            Logger.getLogger(FileFactory.class.getName()).log(Level.SEVERE,
+                    "Error copying file", ex);
+            throw new RuntimeException("File copy failed", ex);
+        }
+    }
+
+    public void SaveSignatureInformedConsent() {
+        GetPathConfig();
+        Path source = Paths.get(SigSource);
+        Path target = Paths.get(SigPathPatient + FileName);
 
         try {
             Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING);

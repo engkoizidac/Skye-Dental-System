@@ -1,31 +1,21 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package app.view.informedConsent;
 
-import app.global.FunctionFactory;
 import static app.global.FunctionFactory.getSystemNowDateTimeString;
 import app.global.helper.ComboBoxItem;
 import app.model.controller.DentistController;
 import app.model.controller.InformedConsentController;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author EngkoiZidac
- */
 public class NewIC extends javax.swing.JDialog {
 
-    public static InformedConcent frmParent;
+    public static InformedConcentManage frmParent;
     public static int Id, DentistId;
     InformedConsentController Controller = new InformedConsentController();
     DentistController DentistController = new DentistController();
     
     static String nowDate = getSystemNowDateTimeString();
 
-    public NewIC(InformedConcent parent, boolean modal) {
+    public NewIC(InformedConcentManage parent, boolean modal) {
         this.frmParent = parent;
         this.setModal(modal);
         initComponents();
@@ -211,6 +201,8 @@ public class NewIC extends javax.swing.JDialog {
             Controller.setC10((c10.isSelected() == true) ? 1 : 0);
             Controller.setDentistId(DentistId);
             Controller.Add(nowDate);
+            
+            frmParent.PopulateData();
             this.dispose();
             JOptionPane.showMessageDialog(null, "Created Successfully!");
         }

@@ -7,14 +7,13 @@ package app.view.toothchart;
 
 import app.view.patient.attachment.Attachment;
 import static app.config.DBConn.getConnection;
-import app.global.ReportFactory;
 import app.global.helper.ComboBoxItem;
 import app.global.helper.DefaultTableView;
 import app.model.controller.PatientController;
 import app.model.controller.PatientToothPartStatusController;
 import app.model.controller.PatientToothStatusController;
 import app.model.controller.ToothStatusController;
-import app.view.informedConsent.InformedConcent;
+import app.view.informedConsent.InformedConcentManage;
 import app.view.patient.PatientMDH;
 import app.view.signature.patient.PatientSignInformedConsent;
 import static app.view.toothchart.PatientToothStatusSetter.Stmt;
@@ -37,7 +36,7 @@ public final class ToothChart extends javax.swing.JInternalFrame {
     PatientToothStatusSetter PTSS = new PatientToothStatusSetter();
     public static Legend frmLegend;
     public static SelectPatient frmSelectPatient;
-    public static InformedConcent frmInformedConcent;
+    public static InformedConcentManage frmInformedConcent;
     public static Attachment frmAttachment;
     public static SetToothStatus frmSetToothPerPart;
     public static int PatientId, ToothId, ToothPartId;
@@ -64,7 +63,7 @@ public final class ToothChart extends javax.swing.JInternalFrame {
         setAdultTab();
         setChildTab();
         InjectToothAnimationListener();
-         tbltoothlabel.setVisible(false);
+        tbltoothlabel.setVisible(false);
         jPanel7.setVisible(false);
         //   jButton4.setVisible(false);
         TSController.PopulateComboBoxData(cmbstatus);
@@ -85,13 +84,8 @@ public final class ToothChart extends javax.swing.JInternalFrame {
     }
 
     public void ShowFrmInformedConcent() {
-        frmInformedConcent = new InformedConcent(this, true);
+        frmInformedConcent = new InformedConcentManage(this, true);
         frmInformedConcent.setVisible(true);
-    }
-
-    public void ShowFrmSigCli() {
-        frmSigCli = new PatientSignInformedConsent(this, true);
-        frmSigCli.setVisible(true);
     }
 
     void ClearTableSelections() {
@@ -8887,9 +8881,9 @@ public final class ToothChart extends javax.swing.JInternalFrame {
         if (PatientId == 0) {
             JOptionPane.showMessageDialog(null, "Please select patient record!");
         } else {
-ShowFrmInformedConcent();
-//            ReportFactory Factory = new ReportFactory();
-////            Factory.LoadReportInformedConsent(nymtxtc);
+            InformedConcentManage.Id = PatientId;
+            InformedConcentManage.PatientName =lblpatient.getText();
+            ShowFrmInformedConcent();
         }
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
